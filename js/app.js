@@ -8,21 +8,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function removeDark() {
-        let textareaStart = document.getElementById('start');
-        let textareaResult = document.getElementById('result');
+        const textareaStart = document.getElementById('start');
+        const textareaResult = document.getElementById('result');
 
         if (!textareaStart || !textareaResult) {
             console.error('One or both textareas not found');
             return;
         }
 
-        let htmlSnippet = textareaStart.value;
-        let modifiedSnippet = htmlSnippet
-            .replace(/\bdark:[a-zA-Z0-9-]+\b/g, '')
+        const modifiedSnippet = textareaStart.value
+            // Удаляем все dark-классы
+            .replace(/\bdark:[^\s"'`]+/g, '')
+            // Удаляем одиночные пробелы между кавычками
+            .replace(/(class=(["'])\s*)\s+(\s*\2)/g, '$1$3')
+            // Убираем пустые атрибуты class
+            .replace(/\s*class=(["'])\s*\1/g, '')
+            // Чистим лишние пробелы
             .replace(/\s{2,}/g, ' ')
+            // Удаляем пробелы перед кавычками
+            .replace(/ "/g, '"')
             .trim();
 
-        textareaResult.value = modifiedSnippet.trim();
+        textareaResult.value = modifiedSnippet;
     }
 
     function copyText(id) {
