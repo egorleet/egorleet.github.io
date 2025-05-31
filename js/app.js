@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function removeDark() {
+        document.querySelector('.loading').classList.remove('hidden');
+        document.querySelector('.loading').classList.add('flex');
+
         const textareaStart = document.getElementById('start');
         const textareaResult = document.getElementById('result');
 
@@ -30,6 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
             .trim();
 
         textareaResult.value = modifiedSnippet;
+
+        setTimeout(() => {
+           document.querySelector('.loading').classList.add('hidden');
+           document.querySelector('.loading').classList.remove('flex');
+        }, 1000);
     }
 
     function copyText(id) {
